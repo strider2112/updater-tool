@@ -1,7 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-updateFile="$PWD/Updates.txt"
-updateChecker="$PWD/check-for-updates"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+updateFile="$DIR/Updates.txt"
+updateChecker="$DIR/check-for-updates"
 
 quit() {
 	printf "\nDone, thank you for using Updater\n\n"
