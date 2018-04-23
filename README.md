@@ -17,9 +17,9 @@ Dependancies:
   3. update-notifier - update-notifier is required because it contains the apt-check script. (sudo apt install update-notifier)
   
 Installation:
-  1. Clone this repository: git clone https://github.com/strider2112/updater-tool
-  2. cd updater-tool
-  3. run chmod +x check-for-updates updater
+  1. Clone this repository, run the command: git clone https://github.com/strider2112/updater-tool
+  2. run the command: cd updater-tool
+  3. run the command: chmod +x check-for-updates updater
   4. the script check-for-updates should be executable by running ./check-for-updates
       a) It will create a file Updates.txt that should then contain the update information which looks like:
         0 packages can be updated.
