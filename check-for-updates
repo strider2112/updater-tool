@@ -1,0 +1,51 @@
+#!/bin/sh
+
+holderFile="$PWD/Updates.txt"
+aptCheckFile="/usr/lib/update-notifier/apt-check"
+zeroUpdateFile="$PWD/zeroUpdates.txt"
+
+# Check for dependancies
+dependant() {
+	if [ ! -f "$aptCheckFile" ]; then
+		printf "You don't have apt-check installed, run \033[01;32msudo apt install update-notifier\033[00m\n\n"
+		exit 1
+	fi
+	if [ ! -x "$(command -v python)" ]; then
+		printf "You don't have python installed, run \033[01;32msudo apt install python\033[00m\n\n"
+		exit 1
+	fi
+}
+
+zeroUpdates() {
+	printf "0 packages can be updated.\n0 updates are security updates.\n" >"$zeroUpdateFile"
+}
+
+# check if update.txt exists, if it doesn't, create it
+checks() {
+	if [ ! -f "$holderFile" ]; then
+		touch "$holderFile"
+		chmod +rw "$holderFile"
+	fi
+	if [ ! -f "$zeroUpdateFile" ]; then
+		touch "$zeroUpdateFile"
+		chmod +rw "$zeroUpdateFile"
+		zeroUpdates
+	fi
+}
+
+# check for updates using apt-check
+updateCheck() {
+	if $aptCheckFile --human-readable >"$holderFile"; then
+		if [ ! "$(cat $zeroUpdateFile)" = "$(cat $holderFile)" ]; then
+			printf "\nIf you want to update, run \033[01;32mupdater\n\033[00m" >>"$holderFile"
+		fi
+		exit 1
+	else
+		echo "apt update check failed"
+		exit 1
+	fi
+}
+
+dependant
+checks
+updateCheck

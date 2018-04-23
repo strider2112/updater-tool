@@ -1,0 +1,73 @@
+#!/bin/sh
+
+updateFile="$PWD/Updates.txt"
+updateChecker="$PWD/check-for-updates"
+
+quit() {
+	printf "\nDone, thank you for using Updater\n\n"
+	exit 1
+}
+
+autoremoveFunction() {
+	printf "\nUpdate complete, there may be leftover files, do you want to run autoremove?"
+	read -p " (y/n) " input
+	case $input in
+		"y" | "Y" | "Yes" | "YES" | "yes")
+			printf "\nRunning \033[01;32msudo apt autoremove\n\033[00m"
+			sudo apt autoremove
+			;;
+		"n" | "N" | "No" | "NO" | "no")
+			quit
+	                ;;
+	         *)
+	                printf "\nInvalid entry. Assuming 'n'"
+			quit
+	                ;;
+	esac
+}
+
+updateFunction() {
+	printf "\nRunning \033[01;32msudo apt update\n\033[00m"
+	sudo apt update
+	read -p "Continue? (y/n) " input
+	case $input in
+		"y" | "Y" | "Yes" | "YES" | "yes")
+			printf "\nRunning \033[01;32msudo apt upgrade\n\033[00m"
+			if sudo apt upgrade; then
+				$updateChecker
+			fi
+			autoremoveFunction
+			;;
+		"n" | "N" | "No" | "NO" | "no")
+			quit
+			;;
+		*)
+			printf "\nInvalid entry. Assuming 'n'"
+			quit
+			;;
+	esac
+}
+
+main() {
+	sed '1q;d' "$updateFile"
+	sed '2q;d' "$updateFile"
+
+	printf "\nDo you want to continue with the update? "
+	read -p "(y/n) " input
+	case $input in
+		"y" | "Y" | "Yes" | "YES" | "yes")
+			printf "\nThis operation will ask for your password.\n"
+			updateFunction
+			;;
+		"n" | "N" | "No" | "NO" | "no")
+			quit
+			;;
+		*)
+			printf "\nInvalid entry. Assuming 'n'"
+			quit
+			;;
+	esac
+	quit
+}
+
+main
