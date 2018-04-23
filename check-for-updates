@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-holderFile="$PWD/Updates.txt"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+holderFile="$DIR/Updates.txt"
 aptCheckFile="/usr/lib/update-notifier/apt-check"
-zeroUpdateFile="$PWD/zeroUpdates.txt"
+zeroUpdateFile="$DIR/zeroUpdates.txt"
 
 # Check for dependancies
 dependant() {
