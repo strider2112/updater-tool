@@ -12,7 +12,7 @@ The Solution's Problem: This makes a problem where, if you see that you have upd
 The Solution's Problem's Solution: So I created two scripts. The update-checker, and a custom update-helper - all the update-helper does is assist in the process of going through aptitude to update the out of date packages. However, to assist in user-usability, it makes calls back to the update-checker so that there are no gaps left in the system.
 
 Dependancies:
-  1. BASH - since it's a bash script, currently, it requires bash. It will probably work in any shell (since the shebangs are /bin/sh), but I'm not 100% sure on that yet.
+  1. BASH - since it's a bash script, currently, it requires bash. 
   2. Python - Python is required for the apt-check script. (sudo apt install python)
   3. update-notifier - update-notifier is required because it contains the apt-check script. (sudo apt install update-notifier)
   
