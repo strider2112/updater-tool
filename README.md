@@ -19,13 +19,14 @@ Dependancies:
 Installation:
   1. Clone this repository: git clone https://github.com/strider2112/updater-tool
   2. cd updater-tool
-  3. the script check-for-updates should be executable by running ./check-for-updates
+  3. run chmod +x check-for-updates updater
+  4. the script check-for-updates should be executable by running ./check-for-updates
       a) It will create a file Updates.txt that should then contain the update information which looks like:
         0 packages can be updated.
         0 updates are security updates.
          That file can be integrated into the MOTD, or used in some way with cat (I use it like so "cat ~/updater-tool/Updates.txt" in my MOTD).
       b) If there are updates available, the script automatically puts "If you want to update, run updater", which is the second script
-  4. the script updater should be executable by running ./updater
+  5. the script updater should be executable by running ./updater
       a) It will guide you through the process of updating by running commands like apt update, apt upgrade, apt autoremove
       
 WIP:
