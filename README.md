@@ -18,7 +18,7 @@ Dependancies:
   
 Installation (Root Required):
   1. Clone this repository, run the command: git clone https://github.com/strider2112/updater-tool
-  2. run the command: cd updater-tool
+  2. run the command: cd updater-tool && chmod +x install
   3. run the command: sudo ./install
   4. the programs can be run by executing "check-for-updates" and "updater". Depending on your system, they may require root.
       check-for-updates saves the updates.txt formatted file in /usr/local/share/updater-tool/data by default, with r/w permissions
@@ -30,6 +30,13 @@ Installation (No Root):
   4. the programs can be run by executing "check-for-updates" and "updater".
       check-for-updates saves the updates.txt formatted file in ..updater-tool/data by default, with r/w permissions
       
+Uninstall (with root):
+  1. run the command: cd updater-tool && chmod +x .uninstall
+  2. run the command: sudo ./.uninstall
+  
+Uninstall (no root):
+  1. run the command: rm -r updater-tool
+
 WIP:
 - Work on the scripts to make them more distro-friendly
 - Work on porting it to a more flexible language, such as python or C
