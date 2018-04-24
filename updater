@@ -8,8 +8,13 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+if [ "$DIR" = "/usr/local/bin" ]; then
+        DATAPATH="/usr/local/share/updater-tool"
+else
+        DATAPATH="$DIR"
+fi
 
-updateFile="$DIR/Updates.txt"
+updateFile="$DATAPATH/data/updates.txt"
 updateChecker="$DIR/check-for-updates"
 
 quit() {
@@ -58,8 +63,11 @@ updateFunction() {
 }
 
 main() {
-	sed '1q;d' "$updateFile"
-	sed '2q;d' "$updateFile"
+	if ! sed '1q;d' "$updateFile"; then
+		echo "Could not open file, did you run setup.sh?"
+	else
+		sed '2q;d' "$updateFile"
+	fi
 
 	printf "\nDo you want to continue with the update? "
 	read -p "(y/n) " input

@@ -16,20 +16,27 @@ Dependancies:
   2. Python - Python is required for the apt-check script. (sudo apt install python)
   3. update-notifier - update-notifier is required because it contains the apt-check script. (sudo apt install update-notifier)
   
-Installation:
+Installation (Root Required):
   1. Clone this repository, run the command: git clone https://github.com/strider2112/updater-tool
-  2. run the command: cd updater-tool
-  3. run the command: chmod +x check-for-updates updater
-  4. the script check-for-updates should be executable by running ./check-for-updates
-      a) It will create a file Updates.txt that should then contain the update information which looks like:
-        0 packages can be updated.
-        0 updates are security updates.
-         That file can be integrated into the MOTD, or used in some way with cat (I use it like so "cat ~/updater-tool/Updates.txt" in my MOTD).
-      b) If there are updates available, the script automatically puts "If you want to update, run updater", which is the second script
-  5. the script updater should be executable by running ./updater
-      a) It will guide you through the process of updating by running commands like apt update, apt upgrade, apt autoremove
+  2. run the command: cd updater-tool && chmod +x install
+  3. run the command: sudo ./install
+  4. the programs can be run by executing "check-for-updates" and "updater". Depending on your system, they may require root.
+      check-for-updates saves the updates.txt formatted file in /usr/local/share/updater-tool/data by default, with r/w permissions
+  
+Installation (No Root):
+  1. Clone this repository, run the command: git clone https://github.com/strider2112/updater-tool
+  3. run the command: cd updater-tool
+  3. run the command: ./install
+  4. the programs can be run by executing "check-for-updates" and "updater".
+      check-for-updates saves the updates.txt formatted file in ..updater-tool/data by default, with r/w permissions
       
+Uninstall (with root):
+  1. run the command: cd updater-tool && chmod +x .uninstall
+  2. run the command: sudo ./.uninstall
+  
+Uninstall (no root):
+  1. run the command: rm -r updater-tool
+
 WIP:
-- Create a setup.sh script to automatically install the programs in /usr/bin or other such location
 - Work on the scripts to make them more distro-friendly
 - Work on porting it to a more flexible language, such as python or C
