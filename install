@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Required to resolve symbolic links to the relative directory of the script.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to t$done
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+if ! chmod +x "$DIR""/check-for-updates" "$DIR""/updater"; then
+	echo "Could not make binaries executable, try running as sudo"
+fi
+
+if ! cp "$DIR""/check-for-updates" "/usr/local/bin/"; then
+	echo "Could not copy binaries, run setup.sh as root or use script in portable mode"
+	exit 1
+else
+	mkdir "/usr/local/share/updater-tool" > /dev/null 2>&1
+	cp "$DIR""/updater" "/usr/local/bin"
+	cp -r "$DIR""/data" "/usr/local/share/updater-tool/"
+	chmod 755 -R "/usr/local/share/updater-tool"
+	chmod 666 "/usr/local/share/updater-tool/data/updates.txt" "/usr/local/share/updater-tool/data/zeroUpdates.txt"
+fi

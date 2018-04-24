@@ -8,10 +8,15 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+if [ "$DIR" = "/usr/local/bin" ]; then
+	DATAPATH="/usr/local/share/updater-tool"
+else
+	DATAPATH="$DIR"
+fi
 
-holderFile="$DIR/Updates.txt"
+holderFile="$DATAPATH/data/updates.txt"
 aptCheckFile="/usr/lib/update-notifier/apt-check"
-zeroUpdateFile="$DIR/zeroUpdates.txt"
+zeroUpdateFile="$DATAPATH/data/zeroUpdates.txt"
 
 # Check for dependancies
 dependant() {
@@ -32,13 +37,21 @@ zeroUpdates() {
 # check if update.txt exists, if it doesn't, create it
 checks() {
 	if [ ! -f "$holderFile" ]; then
-		touch "$holderFile"
-		chmod +rw "$holderFile"
+		if ! touch "$holderFile"; then
+			echo "Unable to read/write file. Did you run install.sh?"
+			exit 1
+		else
+			chmod +rw "$holderFile"
+		fi
 	fi
 	if [ ! -f "$zeroUpdateFile" ]; then
-		touch "$zeroUpdateFile"
-		chmod +rw "$zeroUpdateFile"
-		zeroUpdates
+		if ! touch "$zeroUpdateFile"; then
+			echo "Unable to read/write file. Did you run install.sh?"
+			exit 1
+		else
+			chmod +rw "$zeroUpdateFile"
+			zeroUpdates
+		fi
 	fi
 }
 
@@ -55,6 +68,11 @@ updateCheck() {
 	fi
 }
 
-dependant
-checks
-updateCheck
+
+main() {
+	dependant
+	# checks
+	updateCheck
+}
+
+main
