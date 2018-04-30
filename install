@@ -14,7 +14,7 @@ if ! chmod +x "$DIR""/check-for-updates" "$DIR""/updater"; then
 fi
 
 if ! cp "$DIR""/check-for-updates" "/usr/local/bin/"; then
-	echo "Could not copy binaries, run setup.sh as root or use script in portable mode"
+	echo "Could not copy binaries, run ./install as root or use script in portable mode"
 	exit 1
 else
 	mkdir "/usr/local/share/updater-tool" > /dev/null 2>&1
